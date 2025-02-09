@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Template Slides</title>
+
+    <link rel="stylesheet" href="/node_modules/reveal.js/dist/reveal.css">
+    <link rel="stylesheet" href="/node_modules/reveal.js/dist/theme/night.css">
+    <link rel="stylesheet" href="./styles/theme.css">
+    <link rel="stylesheet" href="/node_modules/shades-of-purple-highlightjs/theme/shades-of-purple.css">
+    <link rel="stylesheet" href="./styles/slides/final.css">
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-timing="20" id="w">
+          <h3>Template Slides</h3>
+          <h5 id="author-name"></h5>
+        </section>
+
+        <section data-auto-animate id="q">
+          <div class="final-slide">
+            <div class="header">
+              <h1>Questions?</h1>
+            </div>
+
+            <div class="qr">
+              <canvas id="slides-qr-link" />
+            </div>
+
+            <div class="links">
+              <ul>
+                <li id="slides-link"></li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script type="module" src="/scripts/main.js"></script>
+  </body>
+</html>

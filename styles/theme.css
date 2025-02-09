@@ -1,0 +1,13 @@
+:root {
+  --r-background-color: #1E1E3F;
+  --r-main-color: #FFEE80;
+  --r-heading-color: #FAD000;
+  --r-link-color: #6943FF;
+  --r-link-color-dark: #6943FF;
+  --r-link-color-hover: #4D21FC;
+  --r-selection-background-color: #6943FF;
+  --r-selection-color: #cec5ff;
+  --r-main-font: Open Sans, sans-serif;
+  --r-heading-font: Montserrat, Impact, sans-serif;
+  --r-code-font: monospace;
+}

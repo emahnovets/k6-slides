@@ -1,0 +1,23 @@
+{
+  "name": "template-slides",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "author": {
+    "name": "Evgeny Mahnovets"
+  },
+  "scripts": {
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^5.2.0"
+  },
+  "dependencies": {
+    "highlightjs-graphql": "^1.0.2",
+    "qrcode": "^1.5.3",
+    "reveal.js": "^5.1.0",
+    "shades-of-purple-highlightjs": "^1.5.0"
+  }
+}

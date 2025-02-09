@@ -1,0 +1,45 @@
+name: Build and Deploy
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@master
+
+    - name: setup node
+      uses: actions/setup-node@v1
+      with:
+        node-version: '20.x'
+
+    - uses: c-hive/gha-npm-cache@v1
+
+    - name: build
+      run: |
+        npm install
+        npm run build
+
+    - name: sync s3
+      uses: jakejarvis/s3-sync-action@master
+      with:
+        args: --exclude '.git*/*' --delete --follow-symlinks
+      env:
+        SOURCE_DIR: './dist'
+        AWS_REGION: ${{ vars.AWS_REGION }}
+        AWS_S3_BUCKET: ${{ vars.AWS_S3_BUCKET }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    - name: invalidate
+      uses: chetan/invalidate-cloudfront-action@v2
+      env:
+        DISTRIBUTION: ${{ vars.AWS_DISTRIBUTION }}
+        PATHS: '/index.html'
+        AWS_REGION: ${{ vars.AWS_REGION }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
