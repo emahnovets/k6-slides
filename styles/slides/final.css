@@ -26,3 +26,9 @@
     margin: auto;
   }
 }
+
+.side-by-side {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}

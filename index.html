@@ -19,81 +19,105 @@
   <div class="reveal">
     <div class="slides">
       <section data-timing="20" id="w">
-        <h3>Efficient API load testing with k6</h3>
+        <h3>🚀 Efficient API load testing with k6</h3>
         <h5 id="author-name"></h5>
       </section>
 
       <section data-auto-animate>
-        <h2>What is Performance Testing?</h2>
+        <h2>🤔 What is Performance Testing?</h2>
         <ul>
-          <li>Evaluates system speed and stability</li>
-          <li>Identifies bottlenecks</li>
-          <li>Ensures reliability under load</li>
-          <li>Types: Load, Stress, Soak, Spike</li>
+          <li class="fragment">⚡ Evaluates system speed and stability</li>
+          <li class="fragment">🔍 Identifies bottlenecks</li>
+          <li class="fragment">💪 Ensures reliability under load</li>
+          <li class="fragment">📋 Types:
+            <ul>
+              <li class="fragment">🏋️ Load</li>
+              <li class="fragment">😰 Stress</li>
+              <li class="fragment">⏳ Soak</li>
+              <li class="fragment">📈 Spike</li>
+            </ul>
+          </li>
+        </ul>
+
+        <aside class="notes">
+          Performance testing is crucial for modern applications:
+          • Speed and stability evaluation helps ensure good user experience
+          • Bottleneck identification allows early problem detection
+          • Load testing verifies system behavior under expected conditions
+          • Stress testing finds breaking points
+          • Soak testing checks for memory leaks and degradation
+          • Spike testing verifies handling of sudden traffic surges
+
+          These different types of testing give us a complete picture of application performance.
+        </aside>
+      </section>
+
+      <section data-auto-animate>
+        <h2>🛠️ What is k6?</h2>
+        <ul>
+          <li>🌟 Open-source load testing tool</li>
+          <li>📊 Developed by Grafana Labs</li>
+          <li>📝 JavaScript-based scripting</li>
+          <li>💻 Command-line execution</li>
+          <li>🔄 Designed for CI/CD integration</li>
         </ul>
       </section>
 
       <section data-auto-animate>
-        <h2>What is k6?</h2>
+        <h2>🎯 Key Features</h2>
         <ul>
-          <li>Open-source load testing tool</li>
-          <li>Developed by Grafana Labs</li>
-          <li>JavaScript-based scripting</li>
-          <li>Command-line execution</li>
-          <li>Designed for CI/CD integration</li>
+          <li>🪶 Lightweight and efficient</li>
+          <li>📊 Multiple load profiles</li>
+          <li>☁️ Supports cloud and on-prem execution</li>
+          <li>📈 Built-in metrics and reporting</li>
+          <li>🔌 Extendable via xk6</li>
         </ul>
       </section>
 
       <section data-auto-animate>
-        <h2>Key Features</h2>
+        <h2>🤼 k6 vs Other Tools</h2>
         <ul>
-          <li>Lightweight and efficient</li>
-          <li>Multiple load profiles</li>
-          <li>Supports cloud and on-prem execution</li>
-          <li>Built-in metrics and reporting</li>
-          <li>Extendable via xk6</li>
+          <li><strong>JMeter</strong>: 🖥️ GUI-based, heavier</li>
+          <li><strong>Locust</strong>: 🐍 Python-based, better for distributed tests</li>
+          <li><strong>Gatling</strong>: ⚡ Uses Scala, similar scripting capabilities</li>
         </ul>
       </section>
 
       <section data-auto-animate>
-        <h2>k6 vs Other Tools</h2>
+        <h2>✨ Pros & Cons of k6</h2>
+        <div class="side-by-side">
+          <div>
+            <h3>👍 Pros</h3>
+            <ul>
+              <li>📝 Easy scripting (JavaScript)</li>
+              <li>🪶 Low resource consumption</li>
+              <li>🎯 Great for API testing</li>
+              <li>🔄 CI/CD-friendly</li>
+            </ul>
+          </div>
+          <div>
+            <h3>👎 Cons</h3>
+            <ul>
+              <li>🖥️ No GUI (CLI only)</li>
+              <li>🚫 Limited protocol support</li>
+              <li>⏺️ No record-and-replay feature</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section data-auto-animate>
+        <h2>⚙️ Installing k6</h2>
         <ul>
-          <li><strong>JMeter</strong>: GUI-based, heavier</li>
-          <li><strong>Locust</strong>: Python-based, better for distributed tests</li>
-          <li><strong>Gatling</strong>: Uses Scala, similar scripting capabilities</li>
+          <li>🍎 <code>brew install k6</code> (Mac)</li>
+          <li>🪟 <code>choco install k6</code> (Windows)</li>
+          <li>🐳 <code>docker pull grafana/k6</code> (Docker)</li>
         </ul>
       </section>
 
       <section data-auto-animate>
-        <h2>Pros & Cons of k6</h2>
-        <h3>Pros</h3>
-        <ul>
-          <li>Easy scripting (JavaScript)</li>
-          <li>Low resource consumption</li>
-          <li>Great for API testing</li>
-          <li>CI/CD-friendly</li>
-        </ul>
-        <h3>Cons</h3>
-        <ul>
-          <li>No GUI (CLI only)</li>
-          <li>Limited protocol support</li>
-          <li>No record-and-replay feature</li>
-        </ul>
-      </section>
-
-      <section data-auto-animate>
-        <h2>Installing k6</h2>
-        <ul>
-          <li><code>brew install k6</code> (Mac)</li>
-          <li><code>choco install k6</code> (Windows)</li>
-          <li><code>docker pull grafana/k6</code> (Docker)</li>
-        </ul>
-      </section>
-
-      <section data-auto-animate>
-        <h2>Writing a Simple Test</h2>
-        <pre><code>
-import http from 'k6/http';
+        <h2>📝 Writing a Simple Test</h2>
+        <pre><code data-line-numbers>import http from 'k6/http';
 import { check, sleep } from 'k6';
 
 export let options = {
@@ -109,33 +133,117 @@ export default function () {
   sleep(1);
 }
           </code></pre>
-        <p>Run it with: <code>k6 run script.js</code></p>
+        <p>🚀 Run it with: <code>k6 run script.js</code></p>
       </section>
 
       <section data-auto-animate>
-        <h2>Real-World Use Cases</h2>
+        <h2>📈 Load Scenarios</h2>
+        <pre><code data-line-numbers>import http from 'k6/http';
+import { check, sleep } from 'k6';
+
+export const options = {
+  scenarios: {
+    ramp_up_down: {
+      executor: 'ramping-vus',
+      startVUs: 0,
+      stages: [
+        { duration: '2m', target: 100 },  // Ramp up to 100 users
+        { duration: '5m', target: 100 },  // Stay at 100 for 5 minutes
+        { duration: '2m', target: 0 },    // Ramp down to 0
+      ],
+    },
+  },
+};
+
+export default function () {
+  const response = http.get('https://test-api.example.com');
+
+  check(response, {
+    'is status 200': (r) => r.status === 200,
+  });
+
+  sleep(1);
+}</code></pre>
+        <p>📊 This test gradually increases load, maintains it, then scales down</p>
+      </section>
+
+      <section data-auto-animate>
+        <h2>📊 Understanding the Stages</h2>
+        <pre><code data-line-numbers="8-12">stages: [
+  { duration: '2m', target: 100 },  // Ramp up
+  { duration: '5m', target: 100 },  // Peak load
+  { duration: '2m', target: 0 },    // Cool down
+],</code></pre>
         <ul>
-          <li>API performance testing</li>
-          <li>Load testing before deployment</li>
-          <li>CI/CD integration</li>
-          <li>Testing GraphQL and WebSockets</li>
+          <li>📈 Each stage defines <code>duration</code> and target VUs</li>
+          <li>⚡ Linear progression between stages</li>
+          <li>📉 Graceful ramp down prevents abrupt stops</li>
+        </ul>
+        <aside class="notes">
+          - First stage ramps from 0 to 100 VUs over 2 minutes
+          - Second stage maintains load to gather steady metrics
+          - Final stage allows system to recover naturally
+          - Great for catching memory leaks and resource issues
+        </aside>
+      </section>
+
+      <section data-auto-animate>
+        <h2>🌐 Browser Testing</h2>
+        <pre><code data-line-numbers>import { browser, devices } from 'k6/browser';
+
+export const options = {
+  scenarios: {
+    browser: {
+      executor: 'shared-iterations',
+      options: {
+        browser: {
+          type: 'chromium',
+        },
+      },
+    },
+  },
+  thresholds: {
+    checks: ['rate==1.0'],
+  },
+};
+
+export default async function () {
+  const iphoneX = devices['iPhone X'];
+  const context = await browser.newContext(iphoneX);
+  const page = await context.newPage();
+
+  try {
+    await page.goto('https://test.k6.io/');
+  } finally {
+    page.close();
+  }
+}
+        </code></pre>
+
+      </section>
+
+      <section data-auto-animate>
+        <h2>💼 Real-World Use Cases</h2>
+        <ul>
+          <li>🌐 API performance testing</li>
+          <li>🚀 Load testing before deployment</li>
+          <li>🔄 CI/CD integration</li>
         </ul>
       </section>
 
       <section data-auto-animate>
-        <h2>Advanced Features</h2>
+        <h2>🔧 Advanced Features</h2>
         <ul>
-          <li>Thresholds & Alerts</li>
-          <li>Custom Metrics (Prometheus, Grafana)</li>
-          <li>Distributed Load Testing</li>
-          <li>Data-driven tests</li>
+          <li>🎯 Thresholds & Alerts</li>
+          <li>📊 Custom Metrics (Prometheus, Grafana)</li>
+          <li>🌐 Distributed Load Testing</li>
+          <li>📋 Data-driven tests</li>
         </ul>
       </section>
 
       <section data-auto-animate>
-        <h2>k6 in CI/CD Pipelines</h2>
-        <pre><code>
-jobs:
+        <h2>🔄 k6 in CI/CD Pipelines</h2>
+        <pre><code data-line-numbers>jobs:
   k6-test:
     runs-on: ubuntu-latest
     steps:
@@ -148,46 +256,51 @@ jobs:
       </section>
 
       <section data-auto-animate>
-        <h2>Reporting & Visualization</h2>
+        <h2>📊 Reporting & Visualization</h2>
         <ul>
-          <li>CLI summary output</li>
-          <li>JSON & InfluxDB export</li>
-          <li>Grafana dashboards</li>
+          <li>💻 CLI summary output</li>
+          <li>📄 JSON & InfluxDB export</li>
+          <li>📈 Grafana dashboards</li>
         </ul>
       </section>
 
       <section data-auto-animate>
-        <h2>xk6 Extensions</h2>
+        <h2>🔌 xk6 Extensions</h2>
         <ul>
-          <li>xk6-browser (UI testing)</li>
-          <li>xk6-websockets (WebSocket support)</li>
-          <li>xk6-kafka (Kafka messaging performance testing)</li>
+          <li>📨 xk6-kafka (Kafka messaging performance testing)</li>
+          <li>🔌 xk6-websockets (WebSocket support, experimental in k6)</li>
         </ul>
       </section>
 
       <section data-auto-animate>
-        <h2>When to Use k6</h2>
-        <h3>✅ Use k6 when:</h3>
-        <ul>
-          <li>Testing APIs or web applications</li>
-          <li>Need performance tests in CI/CD</li>
-          <li>Prefer a scriptable tool</li>
-        </ul>
-        <h3>❌ Avoid k6 when:</h3>
-        <ul>
-          <li>Need GUI-based scripting</li>
-          <li>Require non-HTTP protocol testing</li>
-          <li>Complex UI performance testing</li>
-        </ul>
+        <h2>🤔 When to Use k6</h2>
+        <div class="side-by-side">
+          <div>
+            <h3>✅ Use k6 when:</h3>
+            <ul>
+              <li>🌐 Testing APIs or web applications</li>
+              <li>🔄 Need performance tests in CI/CD</li>
+              <li>📝 Prefer a scriptable tool</li>
+            </ul>
+          </div>
+          <div>
+            <h3>❌ Avoid k6 when:</h3>
+            <ul>
+              <li>🖥️ Need GUI-based scripting</li>
+              <li>🚫 Require non-HTTP protocol testing</li>
+              <li>🌐 Complex UI performance testing</li>
+            </ul>
+          </div>
+        </div>
       </section>
 
       <section data-auto-animate>
-        <h2>Conclusion</h2>
+        <h2>🎯 Conclusion</h2>
         <ul>
-          <li>k6 is a powerful performance testing tool</li>
-          <li>Ideal for API and cloud-native testing</li>
-          <li>Great integration with DevOps pipelines</li>
-          <li>Expandable with xk6 extensions</li>
+          <li>💪 k6 is a powerful performance testing tool</li>
+          <li>☁️ Ideal for API and cloud-native testing</li>
+          <li>🔄 Great integration with DevOps pipelines</li>
+          <li>🔌 Expandable with xk6 extensions</li>
         </ul>
       </section>
 
@@ -204,6 +317,7 @@ jobs:
           <div class="links">
             <ul>
               <li id="slides-link"></li>
+              <li><a href="https://k6.io/docs/k6/latest/">k6 Documentation</a></li>
             </ul>
           </div>
         </div>
