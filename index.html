@@ -1,46 +1,217 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Efficient API load testing with k6</title>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="/node_modules/reveal.js/dist/reveal.css">
-    <link rel="stylesheet" href="/node_modules/reveal.js/dist/theme/night.css">
-    <link rel="stylesheet" href="./styles/theme.css">
-    <link rel="stylesheet" href="/node_modules/shades-of-purple-highlightjs/theme/shades-of-purple.css">
-    <link rel="stylesheet" href="./styles/slides/final.css">
-  </head>
-  <body>
-    <div class="reveal">
-      <div class="slides">
-        <section data-timing="20" id="w">
-          <h3>Efficient API load testing with k6</h3>
-          <h5 id="author-name"></h5>
-        </section>
+  <title>Efficient API load testing with k6</title>
 
-        <section data-auto-animate id="q">
-          <div class="final-slide">
-            <div class="header">
-              <h1>Questions?</h1>
-            </div>
+  <link rel="stylesheet" href="/node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="/node_modules/reveal.js/dist/theme/night.css">
+  <link rel="stylesheet" href="./styles/theme.css">
+  <link rel="stylesheet" href="/node_modules/shades-of-purple-highlightjs/theme/shades-of-purple.css">
+  <link rel="stylesheet" href="./styles/slides/final.css">
+</head>
 
-            <div class="qr">
-              <canvas id="slides-qr-link" />
-            </div>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section data-timing="20" id="w">
+        <h3>Efficient API load testing with k6</h3>
+        <h5 id="author-name"></h5>
+      </section>
 
-            <div class="links">
-              <ul>
-                <li id="slides-link"></li>
-              </ul>
-            </div>
+      <section data-auto-animate>
+        <h2>What is Performance Testing?</h2>
+        <ul>
+          <li>Evaluates system speed and stability</li>
+          <li>Identifies bottlenecks</li>
+          <li>Ensures reliability under load</li>
+          <li>Types: Load, Stress, Soak, Spike</li>
+        </ul>
+      </section>
+
+      <section data-auto-animate>
+        <h2>What is k6?</h2>
+        <ul>
+          <li>Open-source load testing tool</li>
+          <li>Developed by Grafana Labs</li>
+          <li>JavaScript-based scripting</li>
+          <li>Command-line execution</li>
+          <li>Designed for CI/CD integration</li>
+        </ul>
+      </section>
+
+      <section data-auto-animate>
+        <h2>Key Features</h2>
+        <ul>
+          <li>Lightweight and efficient</li>
+          <li>Multiple load profiles</li>
+          <li>Supports cloud and on-prem execution</li>
+          <li>Built-in metrics and reporting</li>
+          <li>Extendable via xk6</li>
+        </ul>
+      </section>
+
+      <section data-auto-animate>
+        <h2>k6 vs Other Tools</h2>
+        <ul>
+          <li><strong>JMeter</strong>: GUI-based, heavier</li>
+          <li><strong>Locust</strong>: Python-based, better for distributed tests</li>
+          <li><strong>Gatling</strong>: Uses Scala, similar scripting capabilities</li>
+        </ul>
+      </section>
+
+      <section data-auto-animate>
+        <h2>Pros & Cons of k6</h2>
+        <h3>Pros</h3>
+        <ul>
+          <li>Easy scripting (JavaScript)</li>
+          <li>Low resource consumption</li>
+          <li>Great for API testing</li>
+          <li>CI/CD-friendly</li>
+        </ul>
+        <h3>Cons</h3>
+        <ul>
+          <li>No GUI (CLI only)</li>
+          <li>Limited protocol support</li>
+          <li>No record-and-replay feature</li>
+        </ul>
+      </section>
+
+      <section data-auto-animate>
+        <h2>Installing k6</h2>
+        <ul>
+          <li><code>brew install k6</code> (Mac)</li>
+          <li><code>choco install k6</code> (Windows)</li>
+          <li><code>docker pull grafana/k6</code> (Docker)</li>
+        </ul>
+      </section>
+
+      <section data-auto-animate>
+        <h2>Writing a Simple Test</h2>
+        <pre><code>
+import http from 'k6/http';
+import { check, sleep } from 'k6';
+
+export let options = {
+  vus: 10,
+  duration: '30s',
+};
+
+export default function () {
+  let res = http.get('https://test-api.example.com');
+
+  check(res, { 'status is 200': (r) => r.status === 200 });
+
+  sleep(1);
+}
+          </code></pre>
+        <p>Run it with: <code>k6 run script.js</code></p>
+      </section>
+
+      <section data-auto-animate>
+        <h2>Real-World Use Cases</h2>
+        <ul>
+          <li>API performance testing</li>
+          <li>Load testing before deployment</li>
+          <li>CI/CD integration</li>
+          <li>Testing GraphQL and WebSockets</li>
+        </ul>
+      </section>
+
+      <section data-auto-animate>
+        <h2>Advanced Features</h2>
+        <ul>
+          <li>Thresholds & Alerts</li>
+          <li>Custom Metrics (Prometheus, Grafana)</li>
+          <li>Distributed Load Testing</li>
+          <li>Data-driven tests</li>
+        </ul>
+      </section>
+
+      <section data-auto-animate>
+        <h2>k6 in CI/CD Pipelines</h2>
+        <pre><code>
+jobs:
+  k6-test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Run k6 test
+      run: |
+        docker run --rm -v $(pwd):/scripts grafana/k6 run /scripts/script.js
+          </code></pre>
+      </section>
+
+      <section data-auto-animate>
+        <h2>Reporting & Visualization</h2>
+        <ul>
+          <li>CLI summary output</li>
+          <li>JSON & InfluxDB export</li>
+          <li>Grafana dashboards</li>
+        </ul>
+      </section>
+
+      <section data-auto-animate>
+        <h2>xk6 Extensions</h2>
+        <ul>
+          <li>xk6-browser (UI testing)</li>
+          <li>xk6-websockets (WebSocket support)</li>
+          <li>xk6-kafka (Kafka messaging performance testing)</li>
+        </ul>
+      </section>
+
+      <section data-auto-animate>
+        <h2>When to Use k6</h2>
+        <h3>✅ Use k6 when:</h3>
+        <ul>
+          <li>Testing APIs or web applications</li>
+          <li>Need performance tests in CI/CD</li>
+          <li>Prefer a scriptable tool</li>
+        </ul>
+        <h3>❌ Avoid k6 when:</h3>
+        <ul>
+          <li>Need GUI-based scripting</li>
+          <li>Require non-HTTP protocol testing</li>
+          <li>Complex UI performance testing</li>
+        </ul>
+      </section>
+
+      <section data-auto-animate>
+        <h2>Conclusion</h2>
+        <ul>
+          <li>k6 is a powerful performance testing tool</li>
+          <li>Ideal for API and cloud-native testing</li>
+          <li>Great integration with DevOps pipelines</li>
+          <li>Expandable with xk6 extensions</li>
+        </ul>
+      </section>
+
+      <section data-auto-animate id="q">
+        <div class="final-slide">
+          <div class="header">
+            <h1>Questions?</h1>
           </div>
-        </section>
-      </div>
-    </div>
 
-    <script type="module" src="/scripts/main.js"></script>
-  </body>
+          <div class="qr">
+            <canvas id="slides-qr-link" />
+          </div>
+
+          <div class="links">
+            <ul>
+              <li id="slides-link"></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script type="module" src="/scripts/main.js"></script>
+</body>
+
 </html>
