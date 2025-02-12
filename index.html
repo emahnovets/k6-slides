@@ -116,110 +116,120 @@
       </section>
 
       <section data-auto-animate>
-        <h2>📝 Writing a Simple Test</h2>
-        <pre><code data-line-numbers>import http from 'k6/http';
-import { check, sleep } from 'k6';
+        <section data-auto-animate>
+          <h2>📝 Writing a Simple Test</h2>
+          <pre><code data-line-numbers="1-2|6-9|11-17|12|14|16">import { check, sleep } from "k6";
+import http from "k6/http";
 
-export let options = {
+const BASE_URL = "https://oychb9mwp5.execute-api.eu-central-1.amazonaws.com";
+
+export const options = {
   vus: 10,
-  duration: '30s',
+  duration: "30s",
 };
 
 export default function () {
-  let res = http.get('https://test-api.example.com');
+  const response = http.get(`${BASE_URL}/health`);
 
-  check(res, { 'status is 200': (r) => r.status === 200 });
+  check(response, { "status is 200": (r) => r.status === 200 });
 
   sleep(1);
-}
-          </code></pre>
-        <p>🚀 Run it with: <code>k6 run script.js</code></p>
+}</code></pre>
+          <p>🚀 Run it with: <code>k6 run basic.ts</code></p>
+        </section>
+
+        <section data-auto-animate>
+          <img src="/basic.png" alt="Basic test" />
+        </section>
       </section>
 
-      <section data-auto-animate>
-        <h2>📈 Load Scenarios</h2>
-        <pre><code data-line-numbers>import http from 'k6/http';
-import { check, sleep } from 'k6';
+      <section>
+        <section data-auto-animate>
+          <h2>📈 Load Scenarios</h2>
+          <pre><code data-line-numbers="1-2|5-17|19-25|10-14|9|10|12|13|14">import { check, sleep } from "k6";
+import http from "k6/http";
+
+const BASE_URL = "https://oychb9mwp5.execute-api.eu-central-1.amazonaws.com";
 
 export const options = {
   scenarios: {
     ramp_up_down: {
-      executor: 'ramping-vus',
+      executor: "ramping-vus",
       startVUs: 0,
       stages: [
-        { duration: '2m', target: 100 },  // Ramp up to 100 users
-        { duration: '5m', target: 100 },  // Stay at 100 for 5 minutes
-        { duration: '2m', target: 0 },    // Ramp down to 0
+        { duration: "2m", target: 100 }, // Ramp up to 100 users
+        { duration: "5m", target: 100 }, // Stay at 100 for 5 minutes
+        { duration: "2m", target: 0 }, // Ramp down to 0
       ],
     },
   },
 };
 
 export default function () {
-  const response = http.get('https://test-api.example.com');
+  const response = http.get(`${BASE_URL}/health`);
 
-  check(response, {
-    'is status 200': (r) => r.status === 200,
-  });
+  check(response, { "status is 200": (r) => r.status === 200 });
 
   sleep(1);
 }</code></pre>
-        <p>📊 This test gradually increases load, maintains it, then scales down</p>
+          <p>📊 This test gradually increases load, maintains it, then scales down</p>
+          <aside class="notes">
+            - First stage ramps from 0 to 100 VUs over 2 minutes
+            - Second stage maintains load to gather steady metrics
+            - Final stage allows system to recover naturally
+            - Great for catching memory leaks and resource issues
+          </aside>
+        </section>
+
+        <section data-auto-animate>
+          <img src="/ramp.png" alt="Ramp test" />
+        </section>
       </section>
 
-      <section data-auto-animate>
-        <h2>📊 Understanding the Stages</h2>
-        <pre><code data-line-numbers="8-12">stages: [
-  { duration: '2m', target: 100 },  // Ramp up
-  { duration: '5m', target: 100 },  // Peak load
-  { duration: '2m', target: 0 },    // Cool down
-],</code></pre>
-        <ul>
-          <li>📈 Each stage defines <code>duration</code> and target VUs</li>
-          <li>⚡ Linear progression between stages</li>
-          <li>📉 Graceful ramp down prevents abrupt stops</li>
-        </ul>
-        <aside class="notes">
-          - First stage ramps from 0 to 100 VUs over 2 minutes
-          - Second stage maintains load to gather steady metrics
-          - Final stage allows system to recover naturally
-          - Great for catching memory leaks and resource issues
-        </aside>
-      </section>
-
-      <section data-auto-animate>
-        <h2>🌐 Browser Testing</h2>
-        <pre><code data-line-numbers>import { browser, devices } from 'k6/browser';
+      <section>
+        <section data-auto-animate>
+          <h2>🌐 Browser Testing</h2>
+          <pre><code data-line-numbers="1-2|4-20|7-9|10-14|17-19|22-36|23-24|27|29-32|34">import { browser } from "k6/browser";
+import { check } from "https://jslib.k6.io/k6-utils/1.5.0/index.js";
 
 export const options = {
   scenarios: {
     browser: {
-      executor: 'shared-iterations',
+      executor: "constant-vus",
+      vus: 1,
+      duration: "10s",
       options: {
         browser: {
-          type: 'chromium',
+          type: "chromium",
         },
       },
     },
   },
   thresholds: {
-    checks: ['rate==1.0'],
+    checks: ["rate==1.0"],
   },
 };
 
 export default async function () {
-  const iphoneX = devices['iPhone X'];
-  const context = await browser.newContext(iphoneX);
+  const context = await browser.newContext();
   const page = await context.newPage();
 
   try {
-    await page.goto('https://test.k6.io/');
+    await page.goto("https://todos.demo.emahnovets.dev/");
+
+    await check(page.locator("h1"), {
+      "Header is visible": async (header) =>
+        (await header.textContent()) === "ToDos",
+    });
   } finally {
     page.close();
   }
-}
-        </code></pre>
+}</code></pre>
+        </section>
 
+        <section data-auto-animate>
+          <img src="/browser.png" alt="Browser test" />
+        </section>
       </section>
 
       <section data-auto-animate>
