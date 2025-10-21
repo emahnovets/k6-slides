@@ -13,7 +13,7 @@
   },
   "devDependencies": {
     "@types/k6": "^0.54.2",
-    "vite": "^5.4.12"
+    "vite": "^5.4.21"
   },
   "dependencies": {
     "highlightjs-graphql": "^1.0.2",
